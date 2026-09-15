@@ -8,80 +8,43 @@ const Charts = (() => {
     instances[id] = new Chart(canvas, config);
   }
 
-  function update(data) {
+  function updateAcademic() {
     if (typeof Chart === "undefined") return;
 
-    const categorySummary = DataManager.getCategorySummary(data);
-    const stats = DataManager.getStockStatistics(data);
+    const labels = ["IM 204", "NET 205", "HCI 206", "SE 207", "WS 201", "PF 203", "DB 202", "MIT 208"];
+    const grades = [2.25, 2.50, 1.25, 1.75, 1.50, 1.50, 2.00, 1.75];
+    const attendance = [94, 91, 100, 97, 96, 98, 95, 93];
 
-    makeChart("categoryValueChart", {
+    const common = {
+      responsive: true,
+      maintainAspectRatio: false,
+      plugins: { legend: { labels: { usePointStyle: true, padding: 14 } } }
+    };
+
+    makeChart("gradeByCourseChart", {
       type: "bar",
-      data: {
-        labels: categorySummary.map(x => x.category),
-        datasets: [{
-          label: "Inventory Value (₱)",
-          data: categorySummary.map(x => x.value),
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
+      data: { labels, datasets: [{ label: "Grade", data: grades, backgroundColor: "#73b5d1", borderRadius: 3 }] },
+      options: { ...common, scales: { y: { reverse: true, min: 1, max: 3, ticks: { stepSize: .5 } } } }
     });
 
-    makeChart("stockStatusChart", {
+    makeChart("coursePerformanceChart", {
       type: "doughnut",
-      data: {
-        labels: ["In Stock", "Low Stock", "Out of Stock"],
-        datasets: [{ data: [stats.inStock, stats.lowStock, stats.outOfStock] }]
-      },
-      options: { responsive: true, maintainAspectRatio: false }
+      data: { labels: ["Excellent", "Good", "Needs Attention"], datasets: [{ data: [5, 2, 1], backgroundColor: ["#1674b8", "#c44952", "#bd7110"], borderWidth: 0 }] },
+      options: { ...common, cutout: "58%" }
     });
 
-    const top = [...data]
-      .sort((a, b) => b.inventory_value - a.inventory_value)
-      .slice(0, 5);
-
-    makeChart("topProductsChart", {
-      type: "bar",
-      data: {
-        labels: top.map(p => p.name),
-        datasets: [{
-          label: "Inventory Value (₱)",
-          data: top.map(p => p.inventory_value),
-          borderWidth: 1
-        }]
-      },
-      options: {
-        indexAxis: "y",
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { x: { beginAtZero: true } }
-      }
+    makeChart("attendanceTrendChart", {
+      type: "line",
+      data: { labels, datasets: [{ label: "Attendance %", data: attendance, borderColor: "#267b9f", backgroundColor: "rgba(38,123,159,.12)", fill: true, tension: .35 }] },
+      options: { ...common, scales: { y: { min: 80, max: 100 } } }
     });
 
-    makeChart("categoryQuantityChart", {
+    makeChart("topCoursesChart", {
       type: "bar",
-      data: {
-        labels: categorySummary.map(x => x.category),
-        datasets: [{
-          label: "Quantity",
-          data: categorySummary.map(x => x.quantity),
-          borderWidth: 1
-        }]
-      },
-      options: {
-        responsive: true,
-        maintainAspectRatio: false,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true } }
-      }
+      data: { labels: ["HCI 206", "PF 203", "WS 201", "SE 207", "DB 202"], datasets: [{ label: "Best Grade", data: [1.25, 1.50, 1.50, 1.75, 2.00], backgroundColor: "#73b5d1", borderRadius: 3 }] },
+      options: { ...common, indexAxis: "y", scales: { x: { reverse: true, min: 1, max: 3 } }, plugins: { legend: { display: false } } }
     });
   }
 
-  return { update };
+  return { updateAcademic };
 })();

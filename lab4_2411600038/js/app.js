@@ -8,18 +8,40 @@ let state = {
 
 const $ = id => document.getElementById(id);
 
-document.addEventListener("DOMContentLoaded", async () => {
-  try {
-    await DataManager.initializeData();
-    populateCategories();
-    bindEvents();
-    render();
-    startRealtimeSimulation();
-  } catch (error) {
-    console.error("Dashboard initialization failed:", error);
-    $("alertArea").innerHTML = '<div class="alert alert-danger">Unable to load inventory data.</div>';
-  }
+document.addEventListener("DOMContentLoaded", () => {
+  const username = localStorage.getItem("studentUsername") || "student";
+  $("navUsername").textContent = username;
+  $("sidebarUsername").textContent = username;
+  $("greeting").textContent = `Good Afternoon, ${username}!`;
+  $("currentDate").textContent = new Date().toLocaleDateString("en-US", {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  });
+  updateAcademicAlert();
+  Charts.updateAcademic();
+  $("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("studentLoggedIn");
+    localStorage.removeItem("studentUsername");
+    window.location.href = "../lab3_2411600038/indext.html";
+  });
+
+  const navLinks = document.querySelectorAll(".sidebar .nav-link");
+  const setActiveLink = () => {
+    navLinks.forEach(link => link.classList.toggle("active", link.getAttribute("href") === window.location.hash || (!window.location.hash && link.getAttribute("href") === "#dashboard")));
+  };
+  navLinks.forEach(link => link.addEventListener("click", setActiveLink));
+  window.addEventListener("hashchange", setActiveLink);
+  setActiveLink();
 });
+
+function updateAcademicAlert() {
+  const attentionCourses = ["NET 205"];
+  const alert = $("academicAlert");
+  if (!alert || !attentionCourses.length) return;
+  alert.querySelector("span").innerHTML = `${attentionCourses.length} course(s) need attention: <b>${attentionCourses.join(", ")}</b>.`;
+}
 
 function populateCategories() {
   const select = $("categoryFilter");
@@ -33,6 +55,11 @@ function populateCategories() {
 }
 
 function bindEvents() {
+  $("logoutBtn").addEventListener("click", () => {
+    localStorage.removeItem("studentLoggedIn");
+    localStorage.removeItem("studentUsername");
+    window.location.href = "../lab3_2411600038/indext.html";
+  });
   $("applyBtn").addEventListener("click", readFiltersAndRender);
   $("resetBtn").addEventListener("click", resetFilters);
   $("exportBtn").addEventListener("click", exportCurrentCSV);

@@ -17,7 +17,7 @@ This project implements the requirements in Laboratory Exercise 4:
 
 - dashboard.html - main dashboard
 - css/style.css - custom responsive styling
-- js/dataManager.js - data/state/filter/search/export support
+- js/academicDataManager.js - academic data/state/filter/search/export support
 - js/charts.js - Chart.js configuration
 - js/app.js - DOM updates and event handlers
 - api/products.php - optional PHP JSON API sample

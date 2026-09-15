@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 160 160" role="img" aria-labelledby="title desc">
+  <title id="title">Student Portal logo</title>
+  <desc id="desc">A green shield with an open book and graduation tassel</desc>
+  <defs>
+    <linearGradient id="shield" x1="20" y1="16" x2="140" y2="150" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#1a936f"/>
+      <stop offset="1" stop-color="#0d5c3e"/>
+    </linearGradient>
+  </defs>
+  <path d="M80 10 140 31v42c0 37-24 62-60 77C44 135 20 110 20 73V31L80 10Z" fill="url(#shield)"/>
+  <path d="M80 20 130 38v35c0 30-18 51-50 66C48 124 30 103 30 73V38l50-18Z" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="3"/>
+  <path d="m42 67 38-15 38 15-38 15-38-15Z" fill="#f3a712"/>
+  <path d="M51 73v21c17 12 41 12 58 0V73L80 84 51 73Z" fill="#fff"/>
+  <path d="M80 84v29M52 94c17 9 39 9 56 0" fill="none" stroke="#0d5c3e" stroke-linecap="round" stroke-width="4"/>
+  <path d="M118 66h14v31" fill="none" stroke="#f3a712" stroke-linecap="round" stroke-width="4"/>
+  <circle cx="132" cy="101" r="5" fill="#f3a712"/>
+  <path d="M132 106v17m-7-10 7 10 7-10" fill="none" stroke="#f3a712" stroke-linecap="round" stroke-width="3"/>
+</svg>
